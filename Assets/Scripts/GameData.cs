@@ -4,8 +4,10 @@ using UnityEngine;
 
 public static class GameData
 {
-    public static class JoystickTags
+    public static class Tags
     {
         public const string MovementJoystick = "Movement Joystick";
+        public const string BreakButton = "Break Button";
+        public const string InputManager = "Input Manager";
     }
 }

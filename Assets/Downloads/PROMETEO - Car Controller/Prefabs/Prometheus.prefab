@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fefceefe666bb4682b272ec8c5bdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManager: {fileID: 0}
   maxSpeed: 120
   maxReverseSpeed: 45
   accelerationMultiplier: 6
@@ -132,9 +133,9 @@ MonoBehaviour:
   RRWParticleSystem: {fileID: 4402756320999286479}
   RLWTireSkid: {fileID: 7045468751846977024}
   RRWTireSkid: {fileID: 7045468751210077382}
-  useUI: 0
+  useUI: 1
   carSpeedText: {fileID: 0}
-  useSounds: 0
+  useSounds: 1
   carEngineSound: {fileID: 0}
   tireScreechSound: {fileID: 0}
   useTouchControls: 0

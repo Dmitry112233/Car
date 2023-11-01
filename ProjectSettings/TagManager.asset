@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Movement Joystick
+  - Break Button
+  - Input Manager
   layers:
   - Default
   - TransparentFX

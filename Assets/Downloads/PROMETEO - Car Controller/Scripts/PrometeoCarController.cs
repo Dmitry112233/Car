@@ -9,17 +9,11 @@ something useful for your game. Best regards, Mena.
 */
 
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PrometeoCarController : MonoBehaviour
 {
-
-    //CAR SETUP
-
-    [Space(20)]
-    //[Header("CAR SETUP")]
     [Space(10)]
     [Range(20, 190)]
     public int maxSpeed = 90; //The maximum speed that the car can reach in km/h.
@@ -158,6 +152,10 @@ public class PrometeoCarController : MonoBehaviour
     float RRWextremumSlip;
 
     private Vector3 movementInputVector = Vector3.zero;
+    private InputManager inputManager;
+
+    private bool isBreakAtcive = false;
+    private bool isBreakKeyUp = false;
 
     // Start is called before the first frame update
     void Start()
@@ -280,7 +278,18 @@ public class PrometeoCarController : MonoBehaviour
             }
         }
 
-        InputManager.Instance.NotifyMovement += ReadMovement;
+        inputManager = GameObject.FindGameObjectWithTag(GameData.Tags.InputManager).GetComponent<InputManager>();
+
+        if (inputManager != null)
+        {
+            inputManager.GetComponent<InputManager>().NotifyMovement += ReadMovement;
+            inputManager.GetComponent<InputManager>().NotifyBreakStart += ReadBreakStart;
+            inputManager.GetComponent<InputManager>().NotifyBreakFinish += ReadBreakFinished;
+        }
+        else
+        {
+            Debug.LogError("Input Manager is null");
+        }
     }
 
     // Update is called once per frame
@@ -359,9 +368,6 @@ public class PrometeoCarController : MonoBehaviour
         }
         else
         {
-            Debug.Log(movementInputVector.z + "_Z SPEED");
-            Debug.Log(movementInputVector.x + "_X SPEED");
-
             if (movementInputVector.z > 0f)
             {
                 CancelInvoke("DecelerateCar");
@@ -383,21 +389,22 @@ public class PrometeoCarController : MonoBehaviour
             {
                 TurnRight();
             }
-            if (Input.GetKey(KeyCode.Space))
+            if (isBreakAtcive)
             {
                 CancelInvoke("DecelerateCar");
                 deceleratingCar = false;
                 Handbrake();
             }
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (isBreakKeyUp)
             {
                 RecoverTraction();
+                isBreakKeyUp = false;
             }
             if (movementInputVector.z == 0f)
             {
                 ThrottleOff();
             }
-            if (movementInputVector.z == 0f && !Input.GetKey(KeyCode.Space) && !deceleratingCar)
+            if (movementInputVector.z == 0f && !isBreakAtcive && !deceleratingCar)
             {
                 InvokeRepeating("DecelerateCar", 0f, 0.1f);
                 deceleratingCar = true;
@@ -917,5 +924,16 @@ public class PrometeoCarController : MonoBehaviour
     {
         movementInputVector.x = horizontal;
         movementInputVector.z = vertical;
+    }
+
+    private void ReadBreakStart()
+    {
+        isBreakAtcive = true;
+    }
+
+    private void ReadBreakFinished()
+    {
+        isBreakAtcive = false;
+        isBreakKeyUp = true;
     }
 }
