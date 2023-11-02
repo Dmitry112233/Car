@@ -9,5 +9,6 @@ public static class GameData
         public const string MovementJoystick = "Movement Joystick";
         public const string BreakButton = "Break Button";
         public const string InputManager = "Input Manager";
+        public const string Car = "Car";
     }
 }

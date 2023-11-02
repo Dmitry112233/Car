@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelData : MonoBehaviour
 {
     public Vector3 initCarPosition;
     public GameObject map;
+    public Finish finish;
+    public int TimeDuration;
 
     public void SetMapActivity(bool isActive)
     {

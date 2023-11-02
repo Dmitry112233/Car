@@ -151,7 +151,6 @@ public class CarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("CAAAR CONTROLLER STAAART");
         //In this part, we set the 'carRigidbody' value with the Rigidbody attached to this
         //gameObject. Also, we define the center of mass of the car with the Vector3 given
         //in the inspector.
@@ -925,19 +924,5 @@ public class CarController : MonoBehaviour
     {
         isBreakAtcive = false;
         isBreakKeyUp = true;
-    }
-
-    public void Activate()
-    {
-        inputManager.GetComponent<InputManager>().NotifyMovement += ReadMovement;
-        inputManager.GetComponent<InputManager>().NotifyBreakStart += ReadBreakStart;
-        inputManager.GetComponent<InputManager>().NotifyBreakFinish += ReadBreakFinished;
-    }
-
-    public void Deactivate()
-    {
-        inputManager.GetComponent<InputManager>().NotifyMovement -= ReadMovement;
-        inputManager.GetComponent<InputManager>().NotifyBreakStart -= ReadBreakStart;
-        inputManager.GetComponent<InputManager>().NotifyBreakFinish -= ReadBreakFinished;
     }
 }

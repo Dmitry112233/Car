@@ -1,71 +1,108 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
     public int currentLevel = 0;
-    public int nextLevel = 1;
 
-    public List<GameObject> maps;
+    public List<LevelData> maps;
 
     public GameObject car;
-    public GameObject canvasControlls;
-    public GameObject inputManager;
+    public Canvas canvasControlls;
 
-    public GameObject canvasCompleted;
-    public GameObject canvasFailed;
+    public Canvas canvasLevelFinished;
+    public TextMeshProUGUI titleText;
+    public GameObject buttonNextLevel;
+    public GameObject buttonRetry;
+
+    public CameraControll virtualCamera;
+
+    public Timer timer;
+
+    private bool isLevelCompleted;
 
     void Start()
     {
-        ActivateLevel(currentLevel);
+        ActivateLevel();
+        isLevelCompleted = false;
     }
 
     void Update()
     {
-
-    }
-
-    private void LevelCompleted()
-    {
-        car.GetComponent<CarController>().Deactivate();
-        inputManager.SetActive(false);
-        canvasControlls.SetActive(false);
-
-        canvasCompleted.SetActive(true);
-    }
-
-    private void LevelFailed()
-    {
-        car.GetComponent<CarController>().Deactivate();
-        inputManager.SetActive(false);
-        canvasControlls.SetActive(false);
-
-        canvasCompleted.SetActive(true);
-    }
-
-    private void ActivateLevel(int levelNumber)
-    {
-        foreach(GameObject levelObj in maps)
+        if (maps[currentLevel].finish.IsFinished && !timer.IsFifnished)
         {
-            var levelData = levelObj.GetComponent<LevelData>();
-            if (levelData.map.activeSelf)
+            isLevelCompleted = true;
+            LevelFinished(true);
+        }
+        if (timer.IsFifnished && !isLevelCompleted)
+        {
+            LevelFinished(false);
+        }
+    }
+
+    private void LevelFinished(bool isCompleted)
+    {
+        maps[currentLevel].finish.IsFinished = false;
+
+        canvasControlls.GetComponent<Canvas>().enabled = false;
+        canvasLevelFinished.GetComponent<Canvas>().enabled = true;
+
+        virtualCamera.Lens = 100;
+
+        if (isCompleted)
+        {
+            buttonNextLevel.SetActive(true);
+            buttonRetry.SetActive(false);
+            titleText.SetText("Level Completed");
+            if (currentLevel < maps.Count - 1)
             {
-                levelData.SetMapActivity(false);
+                currentLevel += 1;
             }
         }
-
-        maps[levelNumber].GetComponent<LevelData>().SetMapActivity(true);
-
-        canvasControlls.SetActive(true);
-        inputManager.SetActive(true);
-
-        if (!car.activeSelf)
+        else
         {
-            car.SetActive(true);
+            titleText.SetText("Level Failed");
+            buttonNextLevel.SetActive(false);
+            buttonRetry.SetActive(true);
+        }
+    }
+
+    public void ActivateLevel()
+    {
+        isLevelCompleted = false;
+
+        foreach (LevelData levelObj in maps)
+        {
+            levelObj.SetMapActivity(false);
         }
 
-        car.GetComponent<CarController>().Activate();
-        car.transform.position = (Vector3)(maps[levelNumber]?.GetComponent<LevelData>().initCarPosition);
+        maps[currentLevel].SetMapActivity(true);
+
+        car.SetActive(false);
+
+        car.transform.position = (Vector3)(maps[currentLevel]?.GetComponent<LevelData>().initCarPosition);
+        car.transform.rotation = Quaternion.LookRotation(transform.forward);
+
+        car.SetActive(true);
+
+        canvasLevelFinished.GetComponent<Canvas>().enabled = false;
+        canvasControlls.GetComponent<Canvas>().enabled = true;
+
+        virtualCamera.Lens = 50;
+
+        timer.RestartTimer(maps[currentLevel].TimeDuration);
+    }
+
+    public void Leave()
+    {
+        if(Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 }
