@@ -8,6 +8,9 @@ TagManager:
   - Break Button
   - Input Manager
   - Car
+  - Pause
+  - ContinueButton
+  - LeaveButton
   layers:
   - Default
   - TransparentFX

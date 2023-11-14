@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     public List<LevelData> maps;
 
     public GameObject car;
-    public Canvas canvasControlls;
+    public Canvas controllsCanvas;
 
     public Canvas canvasLevelFinished;
     public TextMeshProUGUI titleText;
@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour
     {
         maps[currentLevel].finish.IsFinished = false;
 
-        canvasControlls.GetComponent<Canvas>().enabled = false;
+        controllsCanvas.GetComponent<Canvas>().enabled = false;
         canvasLevelFinished.GetComponent<Canvas>().enabled = true;
 
         virtualCamera.Lens = 100;
@@ -87,22 +87,10 @@ public class GameController : MonoBehaviour
         car.SetActive(true);
 
         canvasLevelFinished.GetComponent<Canvas>().enabled = false;
-        canvasControlls.GetComponent<Canvas>().enabled = true;
+        controllsCanvas.GetComponent<Canvas>().enabled = true;
 
         virtualCamera.Lens = 50;
 
         timer.RestartTimer(maps[currentLevel].TimeDuration);
-    }
-
-    public void Leave()
-    {
-        if(Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
     }
 }
