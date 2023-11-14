@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LevelData : MonoBehaviour
 {
-    public Vector3 initCarPosition;
+    public GameObject initCarPosition;
     public GameObject map;
     public Finish finish;
     public int TimeDuration;
