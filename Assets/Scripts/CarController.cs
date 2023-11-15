@@ -913,9 +913,6 @@ public class CarController : MonoBehaviour
     {
         movementInputVector.x = horizontal;
         movementInputVector.z = vertical;
-
-        Debug.Log("Vertical:" + vertical);
-        Debug.Log("Horizontal:" + horizontal);
     }
 
     private void ReadBreakStart()
