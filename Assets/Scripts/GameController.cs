@@ -79,12 +79,8 @@ public class GameController : MonoBehaviour
 
         maps[currentLevel].SetMapActivity(true);
 
-        car.SetActive(false);
-
         car.transform.position = (Vector3)(maps[currentLevel]?.GetComponent<LevelData>().initCarPosition.transform.position);
         car.transform.rotation = Quaternion.LookRotation(transform.forward);
-
-        car.SetActive(true);
 
         canvasLevelFinished.GetComponent<Canvas>().enabled = false;
         controllsCanvas.GetComponent<Canvas>().enabled = true;

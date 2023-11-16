@@ -911,6 +911,9 @@ public class CarController : MonoBehaviour
 
     private void ReadMovement(float horizontal, float vertical)
     {
+        Debug.Log("HOR: " + horizontal);
+        Debug.Log("VER: " + vertical);
+
         movementInputVector.x = horizontal;
         movementInputVector.z = vertical;
     }

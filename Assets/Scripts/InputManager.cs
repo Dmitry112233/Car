@@ -25,6 +25,8 @@ public class InputManager : MonoBehaviour
         Horizontal = movementJoystick.Horizontal;
         Vertical = movementJoystick.Vertical;
 
+        Debug.Log(Horizontal + " - " + Vertical);
+
         NotifyMovement?.Invoke(Horizontal, Vertical);
     }
 
